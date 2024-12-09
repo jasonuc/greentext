@@ -43,7 +43,7 @@ Here’s how you can generate your very own green-text meme:
 ### Example Command
 
 ```bash
-bin/greentext -l 5 -t ./tfw.png -o meme.png
+bin/greentext -l 13 -t ./tfw.png -o meme.png
 ```
 
 - `-l`: Number of lines to include in the green-text.
