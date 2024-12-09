@@ -12,25 +12,31 @@ The Green-Text Meme Generator CLI is a command-line tool built with Go that lets
 ## Installation
 
 1. Make sure you have [Go](https://golang.org/dl/) installed on your machine.
-2. Clone the repository:
+2. Install the CLI tool directly:
+
+   ```bash
+   go install github.com/jasonuc/greentext@latest
+   ```
+
+3. Or clone the repository:
 
    ```bash
    git clone https://github.com/jasonuc/greentext.git
    ```
 
-3. Navigate to the project directory:
+4. Navigate to the project directory:
 
    ```bash
    cd greentext
    ```
 
-4. Build the CLI tool:
+5. Build the CLI tool:
 
    ```bash
    go build -o bin/greentext .
    ```
 
-5. Run the tool:
+6. Run the tool:
 
    ```bash
    bin/greentext -h
