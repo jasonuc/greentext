@@ -16,6 +16,8 @@ var rootCmd = &cobra.Command{
 Created by github.com/jasonuc.
 Visit https://github.com/jasonuc/greentext for more information.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		templatePath := "templates/greentext_template.html"
+
 		lineCount, err := cmd.Flags().GetInt("lines")
 		if err != nil {
 			fmt.Println("Error reading line count:", err)
@@ -41,17 +43,15 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 			return
 		}
 
-		templatePath := "templates/greentext_template.html"
-
 		fontSize, err := cmd.Flags().GetInt("font-size")
-
-		if fontSize < 8 || fontSize > 100 {
-			fmt.Println("Error: Font size must be between 8 and 100.")
-			return
-		}
 
 		if err != nil {
 			fmt.Println("Error reading font size flag:", err)
+			return
+		}
+
+		if fontSize < 8 || fontSize > 100 {
+			fmt.Println("Error: Font size must be between 8 and 100.")
 			return
 		}
 
