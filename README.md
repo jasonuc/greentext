@@ -10,6 +10,9 @@ The Green-Text Meme Generator CLI is a command-line tool built with Go that lets
 
 - **Customizable Inputs**: Write your own green-text stories with ease.
 - **Thumbnail Support**: Add an image to your meme, or use the built-in placeholder if you're feeling minimalist.
+- **Support for External Thumbnails**: Use image URLs as thumbnails for your memes.
+- **Customizable Colors**: Set background and text colors using HEX codes.
+- **Dynamic Font Options**: Choose your preferred font and size.
 - **Fast and Lightweight**: Powered by Go, because performance matters even when making memes.
 - **Formatted Output**: Saves memes as beautifully formatted PNGs, ready for sharing.
 
@@ -53,12 +56,21 @@ Here’s how you can generate your very own green-text meme:
 ### Example Command
 
 ```bash
-bin/greentext -l 13 -t ./tfw.png -o meme.png
+greentext -l 13 -t https://wojakdb.com/data/posts/3571_9009cb2dd906dccb.png -o meme.png
 ```
 
 - `-l`: Number of lines to include in the green-text.
-- `-t`: Path to a thumbnail image (optional).
+- `-t`: Path to a thumbnail image or URL (optional).
 - `-o`: Output file name.
+
+#### Additional Flags
+
+- `--background-color`, `-b`: Set the background color for the meme in HEX format (e.g., `#FFFFFF` for white, default: `#f0e0d6`).
+- `--text-color`, `-c`: Set the text color for the greentext lines in HEX format (e.g., `#00FF00` for green, default: `#819f32`).
+- `--font`, `-f`: Specify the font family for the entire meme (e.g., `"Courier New"`, default: `"Roboto Mono"`).
+- `--font-size`, `-s`: Specify the font size for the greentext lines in pixels (e.g., `14`, default: `12`).
+- `--input-file`, `-i`: Provide a text file containing greentext lines (one line per entry).
+- `--preview-only`, `-P`: Open the meme in the browser without saving it.
 
 ### Example Input
 
