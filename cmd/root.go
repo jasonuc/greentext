@@ -11,35 +11,41 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "greentext",
 	Short: "Generate greentext memes",
-	Long:  `Generate greentext memes from a given text.`,
+	Long: `Generate greentext memes.
+	
+Created by github.com/jasonuc.
+Visit https://github.com/jasonuc/greentext for more information.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		lineCount, err := cmd.Flags().GetInt("lines")
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("Error reading line count:", err)
 			return
 		}
 		fmt.Println("Generating greentext with", lineCount, "lines")
 
 		lines, err := pkg.ReadInputLines(lineCount)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("Error reading input lines:", err)
 			return
 		}
 
 		dest, err := cmd.Flags().GetString("output")
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("Error reading output flag:", err)
 			return
 		}
 
 		thumbnail, err := cmd.Flags().GetString("thumbnail")
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("Error reading thumbnail flag:", err)
 			return
 		}
 
-		if err := pkg.WriteToImage(dest, lines, thumbnail); err != nil {
-			fmt.Println(err)
+		templatePath := "templates/greentext_template.html"
+
+		err = pkg.WriteToMemeImage(dest, lines, thumbnail, templatePath)
+		if err != nil {
+			fmt.Println("Error generating greentext meme:", err)
 			return
 		}
 
@@ -48,14 +54,13 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
+	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
 	}
 }
 
 func init() {
-	rootCmd.Flags().IntP("lines", "l", 5, "Number of lines to include in the greentext. Default is 5")
-	rootCmd.Flags().StringP("output", "o", "greentext-output.png", "Output file to write the greentext to. Default is greentext-output.png")
-	rootCmd.Flags().StringP("thumbnail", "t", "", "Thumbnail to use for the greentext. Default is no thumbnail. Only supports png files at the moment")
+	rootCmd.Flags().IntP("lines", "l", 5, "Number of lines to include in the greentext")
+	rootCmd.Flags().StringP("output", "o", "greentext.png", "Output file for the greentext. Supports PNG (default) and other formats based on the file extension.")
+	rootCmd.Flags().StringP("thumbnail", "t", "", "Thumbnail to use for the greentext. Default is no thumbnail. Supports image file paths or URLs. Example: /path/to/image.png or https://example.com/image.png.")
 }
