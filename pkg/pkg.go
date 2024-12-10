@@ -108,17 +108,21 @@ func CaptureElementScreenshot(htmlFile, outputImageFile string) error {
 	return nil
 }
 
-func WriteToMemeImage(dest string, lines []string, thumbnailPath, templatePath string, fontSize int) error {
+func WriteToMemeImage(dest string, lines []string, thumbnailPath, templatePath string, font string, fontSize int) error {
 
 	unixTime := time.Now().Unix()
 	timestamp := time.Unix(unixTime, 0).Format("02/01/2006, 15:04:05")
 	uniqueID := strconv.FormatInt(unixTime, 10)[:8]
 	styleBlock := template.HTML(fmt.Sprintf(`
 	<style>
+		* {
+			font-family: %s, 'Roboto Mono', monospace;
+		  }
+
 		.text small {
 			font-size: %dpx;
 		}
-	</style>`, fontSize))
+	</style>`, font, fontSize))
 
 	data := MemeData{
 		Timestamp:  timestamp,
