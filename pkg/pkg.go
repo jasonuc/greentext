@@ -108,7 +108,7 @@ func CaptureElementScreenshot(htmlFile, outputImageFile string) error {
 	return nil
 }
 
-func WriteToMemeImage(dest string, lines []string, thumbnailPath, templatePath string, font string, fontSize int) error {
+func WriteToMemeImage(dest string, lines []string, thumbnailPath, templatePath string, font string, fontSize int, previewOnly bool) error {
 
 	unixTime := time.Now().Unix()
 	timestamp := time.Unix(unixTime, 0).Format("02/01/2006, 15:04:05")
@@ -140,10 +140,28 @@ func WriteToMemeImage(dest string, lines []string, thumbnailPath, templatePath s
 	}
 	defer os.Remove(htmlFile)
 
+	if previewOnly {
+		fmt.Println("Preview mode enabled. Opening browser...")
+		var absHtmlFile string
+		if absHtmlFile, err = filepath.Abs(htmlFile); err != nil {
+			return fmt.Errorf("failed to get absolute path for HTML file: %w", err)
+		}
+
+		if err := openBrowser("file://" + absHtmlFile); err != nil {
+			return fmt.Errorf("failed to open browser: %w", err)
+		}
+
+		fmt.Println("Press Enter to exit after viewing the preview...")
+		_, _ = fmt.Scanln() // Wait for user input before exiting
+		fmt.Println("Exiting...")
+		return nil
+	}
+
 	err = CaptureElementScreenshot(htmlFile, dest)
 	if err != nil {
 		return err
 	}
 
+	fmt.Println("Greentext generated and saved to", dest)
 	return nil
 }
