@@ -1,7 +1,6 @@
 package pkg
 
 import (
-	"bufio"
 	"bytes"
 	"context"
 	"fmt"
@@ -11,7 +10,6 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/chromedp/chromedp"
@@ -25,23 +23,6 @@ type MemeData struct {
 	Thumbnail  string
 	FontSize   int
 	StyleBlock template.HTML // holds dynamic CSS styles
-}
-
-func ReadInputLines(linesCount int) ([]string, error) {
-	var lines []string
-
-	reader := bufio.NewReader(os.Stdin)
-	for i := 0; i < linesCount; i++ {
-		fmt.Print("> ")
-		line, err := reader.ReadString('\n')
-		line = strings.TrimSpace(line)
-		if err != nil {
-			return nil, err
-		}
-		lines = append(lines, line)
-	}
-
-	return lines, nil
 }
 
 func GenerateHTMLFile(outputFile string, data MemeData, templatePath string) error {

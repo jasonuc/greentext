@@ -16,46 +16,72 @@ var rootCmd = &cobra.Command{
 Created by github.com/jasonuc.
 Visit https://github.com/jasonuc/greentext for more information.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		templatePath := "templates/greentext_template.html"
+		// Helper functions
+		getStringFlag := func(name string) (string, error) {
+			return cmd.Flags().GetString(name)
+		}
+		getIntFlag := func(name string) (int, error) {
+			return cmd.Flags().GetInt(name)
+		}
 
-		lineCount, err := cmd.Flags().GetInt("lines")
+		// Read flags
+		lineCount, err := getIntFlag("lines")
 		if err != nil {
 			fmt.Println("Error reading line count:", err)
 			return
 		}
-		fmt.Println("Generating greentext with", lineCount, "lines")
 
-		lines, err := pkg.ReadInputLines(lineCount)
+		textFile, err := getStringFlag("input-file")
 		if err != nil {
-			fmt.Println("Error reading input lines:", err)
+			fmt.Println("Error reading file flag:", err)
 			return
 		}
 
-		dest, err := cmd.Flags().GetString("output")
+		var lines []string
+		if textFile != "" {
+			// Read lines from file
+			lines, err = pkg.ReadLinesFromFile(textFile)
+			if err != nil {
+				fmt.Println("Error reading lines from file:", err)
+				return
+			}
+		} else {
+			// Read lines interactively
+			fmt.Println("Generating greentext with", lineCount, "lines")
+			lines, err = pkg.ReadInputLines(lineCount)
+			if err != nil {
+				fmt.Println("Error reading input lines:", err)
+				return
+			}
+		}
+
+		dest, err := getStringFlag("output")
 		if err != nil {
 			fmt.Println("Error reading output flag:", err)
 			return
 		}
 
-		thumbnail, err := cmd.Flags().GetString("thumbnail")
+		thumbnail, err := getStringFlag("thumbnail")
 		if err != nil {
 			fmt.Println("Error reading thumbnail flag:", err)
 			return
 		}
 
-		fontSize, err := cmd.Flags().GetInt("font-size")
+		templatePath := "templates/greentext_template.html"
 
+		fontSize, err := getIntFlag("font-size")
 		if err != nil {
 			fmt.Println("Error reading font size flag:", err)
 			return
 		}
 
+		// Validate font size
 		if fontSize < 8 || fontSize > 100 {
 			fmt.Println("Error: Font size must be between 8 and 100.")
 			return
 		}
 
-		font, err := cmd.Flags().GetString("font")
+		font, err := getStringFlag("font")
 		if err != nil {
 			fmt.Println("Error reading font flag:", err)
 			return
@@ -67,18 +93,19 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 			return
 		}
 
-		bgColor, err := cmd.Flags().GetString("background-color")
+		bgColor, err := getStringFlag("background-color")
 		if err != nil {
 			fmt.Println("Error reading background color flag:", err)
 			return
 		}
 
-		textColor, err := cmd.Flags().GetString("text-color")
+		textColor, err := getStringFlag("text-color")
 		if err != nil {
 			fmt.Println("Error reading text color flag:", err)
 			return
 		}
 
+		// Generate the meme
 		err = pkg.WriteToMemeImage(dest, lines, thumbnail, templatePath, font, fontSize, previewOnly, bgColor, textColor)
 		if err != nil {
 			fmt.Println("Error generating greentext meme:", err)
@@ -102,4 +129,5 @@ func init() {
 	rootCmd.Flags().BoolP("preview-only", "P", false, "Preview the greentext in the browser without generating an image")
 	rootCmd.Flags().StringP("background-color", "b", "#f0e0d6", "Background color for the greentext meme in HEX format")
 	rootCmd.Flags().StringP("text-color", "c", "#819f32", "Text color for the greentext lines in HEX format")
+	rootCmd.Flags().StringP("input-file", "i", "", "Path to a text file containing the greentext lines. Overrides the --lines flag")
 }
