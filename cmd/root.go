@@ -11,51 +11,123 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "greentext",
 	Short: "Generate greentext memes",
-	Long:  `Generate greentext memes from a given text.`,
+	Long: `Generate greentext memes.
+	
+Created by github.com/jasonuc.
+Visit https://github.com/jasonuc/greentext for more information.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		lineCount, err := cmd.Flags().GetInt("lines")
+		// Helper functions
+		getStringFlag := func(name string) (string, error) {
+			return cmd.Flags().GetString(name)
+		}
+		getIntFlag := func(name string) (int, error) {
+			return cmd.Flags().GetInt(name)
+		}
+
+		// Read flags
+		lineCount, err := getIntFlag("lines")
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("Error reading line count:", err)
 			return
 		}
-		fmt.Println("Generating greentext with", lineCount, "lines")
 
-		lines, err := pkg.ReadInputLines(lineCount)
+		textFile, err := getStringFlag("input-file")
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("Error reading file flag:", err)
 			return
 		}
 
-		dest, err := cmd.Flags().GetString("output")
+		var lines []string
+		if textFile != "" {
+			// Read lines from file
+			lines, err = pkg.ReadLinesFromFile(textFile)
+			if err != nil {
+				fmt.Println("Error reading lines from file:", err)
+				return
+			}
+		} else {
+			// Read lines interactively
+			fmt.Println("Generating greentext with", lineCount, "lines")
+			lines, err = pkg.ReadInputLines(lineCount)
+			if err != nil {
+				fmt.Println("Error reading input lines:", err)
+				return
+			}
+		}
+
+		dest, err := getStringFlag("output")
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("Error reading output flag:", err)
 			return
 		}
 
-		thumbnail, err := cmd.Flags().GetString("thumbnail")
+		thumbnail, err := getStringFlag("thumbnail")
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("Error reading thumbnail flag:", err)
 			return
 		}
 
-		if err := pkg.WriteToImage(dest, lines, thumbnail); err != nil {
-			fmt.Println(err)
+		templatePath := "templates/greentext_template.html"
+
+		fontSize, err := getIntFlag("font-size")
+		if err != nil {
+			fmt.Println("Error reading font size flag:", err)
 			return
 		}
 
-		fmt.Println("Greentext generated and saved to", dest)
+		// Validate font size
+		if fontSize < 8 || fontSize > 100 {
+			fmt.Println("Error: Font size must be between 8 and 100.")
+			return
+		}
+
+		font, err := getStringFlag("font")
+		if err != nil {
+			fmt.Println("Error reading font flag:", err)
+			return
+		}
+
+		previewOnly, err := cmd.Flags().GetBool("preview-only")
+		if err != nil {
+			fmt.Println("Error reading preview flag:", err)
+			return
+		}
+
+		bgColor, err := getStringFlag("background-color")
+		if err != nil {
+			fmt.Println("Error reading background color flag:", err)
+			return
+		}
+
+		textColor, err := getStringFlag("text-color")
+		if err != nil {
+			fmt.Println("Error reading text color flag:", err)
+			return
+		}
+
+		// Generate the meme
+		err = pkg.WriteToMemeImage(dest, lines, thumbnail, templatePath, font, fontSize, previewOnly, bgColor, textColor)
+		if err != nil {
+			fmt.Println("Error generating greentext meme:", err)
+			return
+		}
 	},
 }
 
 func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
+	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
 	}
 }
 
 func init() {
-	rootCmd.Flags().IntP("lines", "l", 5, "Number of lines to include in the greentext. Default is 5")
-	rootCmd.Flags().StringP("output", "o", "greentext-output.png", "Output file to write the greentext to. Default is greentext-output.png")
-	rootCmd.Flags().StringP("thumbnail", "t", "", "Thumbnail to use for the greentext. Default is no thumbnail. Only supports png files at the moment")
+	rootCmd.Flags().IntP("lines", "l", 5, "Number of lines to include in the greentext")
+	rootCmd.Flags().StringP("output", "o", "greentext.png", "Output file for the greentext. Supports PNG (default) and other formats based on the file extension")
+	rootCmd.Flags().StringP("thumbnail", "t", "", "Thumbnail to use for the greentext. Default is no thumbnail. Supports image file paths or URLs")
+	rootCmd.Flags().IntP("font-size", "s", 12, "Font size for the greentext lines")
+	rootCmd.Flags().StringP("font", "f", "Roboto Mono", "Font family to use for the entire greentext meme. Only supports built-in web-safe fonts")
+	rootCmd.Flags().BoolP("preview-only", "P", false, "Preview the greentext in the browser without generating an image")
+	rootCmd.Flags().StringP("background-color", "b", "#f0e0d6", "Background color for the greentext meme in HEX format")
+	rootCmd.Flags().StringP("text-color", "c", "#819f32", "Text color for the greentext lines in HEX format")
+	rootCmd.Flags().StringP("input-file", "i", "", "Path to a text file containing the greentext lines. Overrides the --lines flag")
 }

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greentext Meme</title>
+    <style>
+        body {
+            font-family: 'Roboto Mono', monospace;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 512px;
+            max-width: 512px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            background-color: #e2d1c6;
+            padding: 5px 10px;
+            font-size: 12px;
+            color: #9d352e;
+            margin-bottom: 0;
+        }
+
+        .content {
+            display: flex;
+            padding-left: 15px;
+            min-height: 150px;
+        }
+
+        .content.no-thumbnail {
+            justify-content: center;
+            padding-left: 0;
+        }
+
+        .thumbnail {
+            width: 120px;
+            height: 120px;
+            border-radius: 2px;
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+
+        .text {
+            border-left: 1.5px solid #e2d1c6;
+            padding: 10px;
+            font-size: 12px;
+            color: #819f32;
+            line-height: 1.2;
+            word-wrap: break-word;
+        }
+
+        .text small {
+            max-width: 512px;
+            display: block;
+            margin-bottom: 5px;
+            word-wrap: break-word;
+        }
+
+        .content.no-thumbnail .text {
+            width: 100%;
+            border-left: none;
+        }
+        
+        .content.no-thumbnail .text small {
+            text-align: left;
+        }
+
+        .anon {
+            color: #3e8c5a;
+            font-weight: bold;
+        }
+    </style>
+    {{.StyleBlock}}
+</head>
+
+<body>
+    <div id="meme-container" class="container">
+        <div class="header">
+            <span class="anon">Anonymous</span>
+            <span>{{.Timestamp}}</span>
+            <span>No.{{.UniqueID}}</span>
+        </div>
+        <div class="content {{if not .Thumbnail}}no-thumbnail{{end}}">
+            {{if .Thumbnail}}
+            <div class="thumbnail">
+                <img src="{{.Thumbnail}}" alt="Thumbnail" class="thumbnail">
+            </div>
+            {{end}}
+            <div class="text">
+                {{range .Lines}}
+                <small><span>&gt;</span> {{.}}</small>
+                {{end}}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
