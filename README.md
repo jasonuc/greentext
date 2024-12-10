@@ -2,6 +2,10 @@
 
 The Green-Text Meme Generator CLI is a command-line tool built with Go that lets you create classic green-text memes with ease.
 
+<p align="center">
+  <img src="example-meme-sm.png" alt="Example Meme">
+</p>
+
 ## Features
 
 - **Customizable Inputs**: Write your own green-text stories with ease.
