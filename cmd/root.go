@@ -1,12 +1,13 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
-	"os"
 
 	_ "embed"
 
 	"github.com/jasonuc/greentext/pkg"
+	"github.com/jasonuc/greentext/pkg/version"
 	"github.com/spf13/cobra"
 )
 
@@ -114,10 +115,14 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 	},
 }
 
-func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		os.Exit(1)
-	}
+// Execute adds all child commands to the root command and sets flags appropriately.
+// This is called by main.main(). It only needs to happen once to the rootCmd.
+func Execute(currentVersion string) error {
+	rootCmd.Version = currentVersion
+	info := version.FetchUpdateInfo(rootCmd.Version)
+	defer info.PromptUpdateIfAvailable()
+	ctx := version.WithContext(context.Background(), &info)
+	return rootCmd.ExecuteContext(ctx)
 }
 
 func init() {
