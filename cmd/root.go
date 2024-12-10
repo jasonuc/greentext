@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 
+	_ "embed"
+
 	"github.com/jasonuc/greentext/pkg"
 	"github.com/spf13/cobra"
 )
@@ -67,8 +69,6 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 			return
 		}
 
-		templatePath := "templates/greentext_template.html"
-
 		fontSize, err := getIntFlag("font-size")
 		if err != nil {
 			fmt.Println("Error reading font size flag:", err)
@@ -106,7 +106,7 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 		}
 
 		// Generate the meme
-		err = pkg.WriteToMemeImage(dest, lines, thumbnail, templatePath, font, fontSize, previewOnly, bgColor, textColor)
+		err = pkg.WriteToMemeImage(dest, lines, thumbnail, font, fontSize, previewOnly, bgColor, textColor)
 		if err != nil {
 			fmt.Println("Error generating greentext meme:", err)
 			return

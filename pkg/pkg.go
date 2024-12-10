@@ -12,6 +12,8 @@ import (
 	"strconv"
 	"time"
 
+	_ "embed"
+
 	"github.com/chromedp/chromedp"
 	"github.com/nfnt/resize"
 )
@@ -25,9 +27,12 @@ type MemeData struct {
 	StyleBlock template.HTML // holds dynamic CSS styles
 }
 
-func GenerateHTMLFile(outputFile string, data MemeData, templatePath string) error {
+//go:embed templates/greentext_template.html
+var templateFile []byte
 
-	tmpl, err := template.ParseFiles(templatePath)
+func GenerateHTMLFile(outputFile string, data MemeData) error {
+
+	tmpl, err := template.New("greentext").Parse(string(templateFile))
 	if err != nil {
 		return fmt.Errorf("failed to parse template: %w", err)
 	}
@@ -89,7 +94,7 @@ func CaptureElementScreenshot(htmlFile, outputImageFile string) error {
 	return nil
 }
 
-func WriteToMemeImage(dest string, lines []string, thumbnailPath, templatePath string, font string, fontSize int, previewOnly bool, bgColor, textColor string) error {
+func WriteToMemeImage(dest string, lines []string, thumbnailPath, font string, fontSize int, previewOnly bool, bgColor, textColor string) error {
 
 	unixTime := time.Now().Unix()
 	timestamp := time.Unix(unixTime, 0).Format("02/01/2006, 15:04:05")
@@ -120,7 +125,7 @@ func WriteToMemeImage(dest string, lines []string, thumbnailPath, templatePath s
 	}
 
 	htmlFile := "temp_meme.html"
-	err := GenerateHTMLFile(htmlFile, data, templatePath)
+	err := GenerateHTMLFile(htmlFile, data)
 	if err != nil {
 		return err
 	}
