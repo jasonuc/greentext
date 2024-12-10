@@ -43,7 +43,13 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 
 		templatePath := "templates/greentext_template.html"
 
-		err = pkg.WriteToMemeImage(dest, lines, thumbnail, templatePath)
+		fontSize, err := cmd.Flags().GetInt("font-size")
+		if err != nil {
+			fmt.Println("Error reading font size flag:", err)
+			return
+		}
+
+		err = pkg.WriteToMemeImage(dest, lines, thumbnail, templatePath, fontSize)
 		if err != nil {
 			fmt.Println("Error generating greentext meme:", err)
 			return
@@ -63,4 +69,5 @@ func init() {
 	rootCmd.Flags().IntP("lines", "l", 5, "Number of lines to include in the greentext")
 	rootCmd.Flags().StringP("output", "o", "greentext.png", "Output file for the greentext. Supports PNG (default) and other formats based on the file extension.")
 	rootCmd.Flags().StringP("thumbnail", "t", "", "Thumbnail to use for the greentext. Default is no thumbnail. Supports image file paths or URLs. Example: /path/to/image.png or https://example.com/image.png.")
+	rootCmd.Flags().IntP("font-size", "fs", 12, "Font size for the greentext lines.")
 }

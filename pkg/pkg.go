@@ -19,10 +19,12 @@ import (
 )
 
 type MemeData struct {
-	Timestamp string
-	UniqueID  string
-	Lines     []string
-	Thumbnail string
+	Timestamp  string
+	UniqueID   string
+	Lines      []string
+	Thumbnail  string
+	FontSize   int
+	StyleBlock template.HTML // holds dynamic CSS styles
 }
 
 func ReadInputLines(linesCount int) ([]string, error) {
@@ -106,17 +108,25 @@ func CaptureElementScreenshot(htmlFile, outputImageFile string) error {
 	return nil
 }
 
-func WriteToMemeImage(dest string, lines []string, thumbnailPath, templatePath string) error {
+func WriteToMemeImage(dest string, lines []string, thumbnailPath, templatePath string, fontSize int) error {
 
 	unixTime := time.Now().Unix()
 	timestamp := time.Unix(unixTime, 0).Format("02/01/2006, 15:04:05")
 	uniqueID := strconv.FormatInt(unixTime, 10)[:8]
+	styleBlock := template.HTML(fmt.Sprintf(`
+	<style>
+		.text small {
+			font-size: %dpx;
+		}
+	</style>`, fontSize))
 
 	data := MemeData{
-		Timestamp: timestamp,
-		UniqueID:  uniqueID,
-		Lines:     lines,
-		Thumbnail: thumbnailPath,
+		Timestamp:  timestamp,
+		UniqueID:   uniqueID,
+		Lines:      lines,
+		Thumbnail:  thumbnailPath,
+		FontSize:   fontSize,
+		StyleBlock: styleBlock,
 	}
 
 	htmlFile := "temp_meme.html"
