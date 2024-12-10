@@ -95,11 +95,11 @@ func Execute() {
 
 func init() {
 	rootCmd.Flags().IntP("lines", "l", 5, "Number of lines to include in the greentext")
-	rootCmd.Flags().StringP("output", "o", "greentext.png", "Output file for the greentext. Supports PNG (default) and other formats based on the file extension.")
-	rootCmd.Flags().StringP("thumbnail", "t", "", "Thumbnail to use for the greentext. Default is no thumbnail. Supports image file paths or URLs. Example: /path/to/image.png or https://example.com/image.png.")
-	rootCmd.Flags().IntP("font-size", "s", 12, "Font size for the greentext lines.")
-	rootCmd.Flags().StringP("font", "f", "Roboto Mono", "Font family to use for the entire greentext meme. Only supports built-in web-safe fonts (e.g., 'Courier New', 'Comic Sans MS', 'Monaco')")
-	rootCmd.Flags().BoolP("preview-only", "P", false, "Preview the greentext in the browser without generating an image.")
-	rootCmd.Flags().String("background-color", "#f0e0d6", "Background color for the greentext meme in HEX format (e.g., #FFFFFF).")
-	rootCmd.Flags().String("text-color", "#819f32", "Text color for the greentext lines in HEX format (e.g., #000000).")
+	rootCmd.Flags().StringP("output", "o", "greentext.png", "Output file for the greentext. Supports PNG (default) and other formats based on the file extension")
+	rootCmd.Flags().StringP("thumbnail", "t", "", "Thumbnail to use for the greentext. Default is no thumbnail. Supports image file paths or URLs")
+	rootCmd.Flags().IntP("font-size", "s", 12, "Font size for the greentext lines")
+	rootCmd.Flags().StringP("font", "f", "Roboto Mono", "Font family to use for the entire greentext meme. Only supports built-in web-safe fonts")
+	rootCmd.Flags().BoolP("preview-only", "P", false, "Preview the greentext in the browser without generating an image")
+	rootCmd.Flags().StringP("background-color", "b", "#f0e0d6", "Background color for the greentext meme in HEX format")
+	rootCmd.Flags().StringP("text-color", "c", "#819f32", "Text color for the greentext lines in HEX format")
 }
