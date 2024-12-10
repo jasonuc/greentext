@@ -39,6 +39,11 @@
             min-height: 150px;
         }
 
+        .content.no-thumbnail {
+            justify-content: center;
+            padding-left: 0;
+        }
+
         .thumbnail {
             width: 120px;
             height: 120px;
@@ -63,6 +68,15 @@
             word-wrap: break-word;
         }
 
+        .content.no-thumbnail .text {
+            width: 100%;
+            border-left: none;
+        }
+        
+        .content.no-thumbnail .text small {
+            text-align: left;
+        }
+
         .anon {
             color: #3e8c5a;
             font-weight: bold;
@@ -78,13 +92,12 @@
             <span>{{.Timestamp}}</span>
             <span>No.{{.UniqueID}}</span>
         </div>
-        <div class="content">
+        <div class="content {{if not .Thumbnail}}no-thumbnail{{end}}">
+            {{if .Thumbnail}}
             <div class="thumbnail">
-                <!-- Optional thumbnail will go here -->
-                {{if .Thumbnail}}
                 <img src="{{.Thumbnail}}" alt="Thumbnail" class="thumbnail">
-                {{end}}
             </div>
+            {{end}}
             <div class="text">
                 {{range .Lines}}
                 <small><span>&gt;</span> {{.}}</small>
