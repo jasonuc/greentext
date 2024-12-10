@@ -67,7 +67,19 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 			return
 		}
 
-		err = pkg.WriteToMemeImage(dest, lines, thumbnail, templatePath, font, fontSize, previewOnly)
+		bgColor, err := cmd.Flags().GetString("background-color")
+		if err != nil {
+			fmt.Println("Error reading background color flag:", err)
+			return
+		}
+
+		textColor, err := cmd.Flags().GetString("text-color")
+		if err != nil {
+			fmt.Println("Error reading text color flag:", err)
+			return
+		}
+
+		err = pkg.WriteToMemeImage(dest, lines, thumbnail, templatePath, font, fontSize, previewOnly, bgColor, textColor)
 		if err != nil {
 			fmt.Println("Error generating greentext meme:", err)
 			return
@@ -88,4 +100,6 @@ func init() {
 	rootCmd.Flags().IntP("font-size", "s", 12, "Font size for the greentext lines.")
 	rootCmd.Flags().StringP("font", "f", "Roboto Mono", "Font family to use for the entire greentext meme. Only supports built-in web-safe fonts (e.g., 'Courier New', 'Comic Sans MS', 'Monaco')")
 	rootCmd.Flags().BoolP("preview-only", "P", false, "Preview the greentext in the browser without generating an image.")
+	rootCmd.Flags().String("background-color", "#f0e0d6", "Background color for the greentext meme in HEX format (e.g., #FFFFFF).")
+	rootCmd.Flags().String("text-color", "#819f32", "Text color for the greentext lines in HEX format (e.g., #000000).")
 }
