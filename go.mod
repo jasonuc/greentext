@@ -4,7 +4,6 @@ go 1.23.0
 
 require (
 	github.com/chromedp/chromedp v0.11.2
-	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
 	github.com/spf13/cobra v1.8.1
 	golang.org/x/mod v0.22.0
@@ -20,6 +19,5 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	golang.org/x/image v0.23.0 // indirect
 	golang.org/x/sys v0.26.0 // indirect
 )
