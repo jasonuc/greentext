@@ -25,14 +25,12 @@ type MemeData struct {
 	Thumbnail  string
 	FontSize   int
 	StyleBlock template.HTML // holds dynamic CSS styles
+	Template   []byte
 }
-
-//go:embed templates/greentext_template.html
-var templateFile []byte
 
 func GenerateHTMLFile(outputFile string, data MemeData) error {
 
-	tmpl, err := template.New("greentext").Parse(string(templateFile))
+	tmpl, err := template.New("greentext").Parse(string(data.Template))
 	if err != nil {
 		return fmt.Errorf("failed to parse template: %w", err)
 	}
@@ -94,7 +92,7 @@ func CaptureElementScreenshot(htmlFile, outputImageFile string) error {
 	return nil
 }
 
-func WriteToMemeImage(dest string, lines []string, thumbnailPath, font string, fontSize int, previewOnly bool, bgColor, textColor string) error {
+func WriteToMemeImage(dest string, tmpl []byte, lines []string, thumbnailPath, font string, fontSize int, previewOnly bool, bgColor, textColor string) error {
 
 	unixTime := time.Now().Unix()
 	timestamp := time.Unix(unixTime, 0).Format("02/01/2006, 15:04:05")
@@ -122,6 +120,7 @@ func WriteToMemeImage(dest string, lines []string, thumbnailPath, font string, f
 		Thumbnail:  thumbnailPath,
 		FontSize:   fontSize,
 		StyleBlock: styleBlock,
+		Template:   tmpl,
 	}
 
 	htmlFile := "temp_meme.html"

@@ -11,6 +11,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type ctxKey string
+
+const (
+	defaultTemplateKey ctxKey = "DEFAULT"
+)
+
 var rootCmd = &cobra.Command{
 	Use:   "greentext",
 	Short: "Generate greentext memes",
@@ -19,6 +25,13 @@ var rootCmd = &cobra.Command{
 Created by github.com/jasonuc.
 Visit https://github.com/jasonuc/greentext for more information.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		defaultTemplate, ok := cmd.Context().Value(defaultTemplateKey).([]byte)
+
+		if ok != true {
+			fmt.Println("Invalid template passed")
+			return
+		}
+
 		// Helper functions
 		getStringFlag := func(name string) (string, error) {
 			return cmd.Flags().GetString(name)
@@ -107,7 +120,7 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 		}
 
 		// Generate the meme
-		err = pkg.WriteToMemeImage(dest, lines, thumbnail, font, fontSize, previewOnly, bgColor, textColor)
+		err = pkg.WriteToMemeImage(dest, defaultTemplate, lines, thumbnail, font, fontSize, previewOnly, bgColor, textColor)
 		if err != nil {
 			fmt.Println("Error generating greentext meme:", err)
 			return
@@ -117,11 +130,13 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute(currentVersion string) error {
+func Execute(currentVersion string, defaultTemplate []byte) error {
 	rootCmd.Version = currentVersion
 	info := version.FetchUpdateInfo(rootCmd.Version)
 	defer info.PromptUpdateIfAvailable()
 	ctx := version.WithContext(context.Background(), &info)
+
+	ctx = context.WithValue(ctx, defaultTemplateKey, defaultTemplate)
 	return rootCmd.ExecuteContext(ctx)
 }
 
