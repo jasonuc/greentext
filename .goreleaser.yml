@@ -1,5 +1,3 @@
-version: 1
-
 before:
   hooks:
     - go mod tidy
@@ -24,6 +22,37 @@ archives:
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
       {{- if .Arm }}v{{ .Arm }}{{ end }}
+
+brews:
+  - name: greentext
+    homepage: https://github.com/jasonuc/greentext
+    license: MIT
+    folder: Formula
+    description: Greentext is a 4chan greentext generator.
+    tap:
+      owner: jasonuc
+      name: homebrew-tap
+      branch: master
+    commit_author:
+      name: jasonuc
+      email: me@jasonuc.com
+
+release:
+  prerelease: auto
+  github:
+    owner: jasonuc
+    name: greentext
+  footer: |
+    ## How to Update
+    ### Homebrew
+    ```
+      brew upgrade greentext
+    ```
+
+    ### Go
+    ```
+      go install github.com/jasonuc/greentext@{{ .Version }}
+    ```
 
 changelog:
   use: github
