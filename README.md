@@ -18,6 +18,24 @@ The Green-Text Meme Generator CLI is a command-line tool built with Go that lets
 
 ## Installation
 
+### Using Homebrew
+
+You can now install the CLI tool via Homebrew using a personal tap:
+
+1. Add the tap:
+
+   ```bash
+   brew tap jasonuc/greentext
+   ```
+
+2. Install the CLI:
+
+   ```bash
+   brew install greentext
+   ```
+
+### Manual Installation
+
 1. Make sure you have [Go](https://golang.org/dl/) installed on your machine.
 2. Install the CLI tool directly:
 
