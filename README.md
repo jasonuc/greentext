@@ -91,7 +91,7 @@ greentext -l 13 -t https://wojakdb.com/data/posts/3571_9009cb2dd906dccb.png -o m
 
 Generates a meme like:
 
-![Example Meme](example-greentext.png)
+![Example Meme](example.png)
 
 ## Contributing
 
