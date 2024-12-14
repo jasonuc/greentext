@@ -40,7 +40,7 @@ If you want your template to be included in the default templates, please open a
 			return
 		}
 
-		fmt.Println("Template file created successfully at template.html\n")
+		fmt.Println("Template file created successfully at template.html")
 		fmt.Println("You can now edit the template file to your liking. Enjoy :)")
 	},
 }
