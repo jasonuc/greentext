@@ -1,20 +1,20 @@
 # greentext CLI
 
-The Green-Text Meme Generator CLI is a command-line tool built with Go that lets you create classic green-text memes with ease.
+The GreenText Generator CLI is a command-line tool built with Go that lets you create classic greentext with ease.
 
 <p align="center">
-  <img src="example-sm.png" alt="Example Meme">
+  <img src="example-sm.png" alt="Example">
 </p>
 
 ## Features
 
 - **Customizable Inputs**: Write your own green-text stories with ease.
-- **Thumbnail Support**: Add an image to your meme, or use the built-in placeholder if you're feeling minimalist.
-- **Support for External Thumbnails**: Use image URLs as thumbnails for your memes.
+- **Thumbnail Support**: Add an image to your greentext, or don't if you're feeling minimalist.
+- **Support for External Thumbnails**: Use image URLs as thumbnails for your greentext.
 - **Customizable Colors**: Set background and text colors using HEX codes.
 - **Dynamic Font Options**: Choose your preferred font and size.
 - **Fast and Lightweight**: Powered by Go, because performance matters even when making memes.
-- **Formatted Output**: Saves memes as beautifully formatted PNGs, JPGs, JPEGs, and WEBPs ready for sharing.
+- **Formatted Output**: Saves greentext as beautifully formatted PNGs, JPGs, JPEGs, and WEBPs ready for sharing.
 
 ## Installation
 
@@ -57,13 +57,13 @@ The Green-Text Meme Generator CLI is a command-line tool built with Go that lets
 
 ## Usage
 
-### Generate a Meme
+### Generate
 
 ```bash
-greentext -l 13 -t https://wojakdb.com/data/posts/3571_9009cb2dd906dccb.png -o meme.png
+greentext -l 13 -t https://wojakdb.com/data/posts/3571_9009cb2dd906dccb.png -o example.png
 ```
 
-- `-l`: Number of lines in the meme.
+- `-l`: Number of lines in the greentext.
 - `-t`: Thumbnail image path or URL (optional).
 - `-o`: Output file name.
 
@@ -89,9 +89,9 @@ greentext -l 13 -t https://wojakdb.com/data/posts/3571_9009cb2dd906dccb.png -o m
 
 ### Example Output
 
-Generates a meme like:
+Generates:
 
-![Example Meme](example.png)
+![Example](example.png)
 
 ## Contributing
 
