@@ -25,18 +25,18 @@ var rootCmd = &cobra.Command{
 Created by github.com/jasonuc.
 Visit https://github.com/jasonuc/greentext for more information.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		defaultTemplate, ok := cmd.Context().Value(defaultTemplateKey).([]byte)
-		if !ok {
-			fmt.Println("Invalid template passed")
-			return
-		}
-
 		// Helper functions
 		getStringFlag := func(name string) (string, error) {
 			return cmd.Flags().GetString(name)
 		}
 		getIntFlag := func(name string) (int, error) {
 			return cmd.Flags().GetInt(name)
+		}
+
+		defaultTemplate, ok := cmd.Context().Value(defaultTemplateKey).([]byte)
+		if !ok {
+			fmt.Println("Invalid template passed")
+			return
 		}
 
 		// Read flags
@@ -118,7 +118,19 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 			return
 		}
 
-		err = gt.WriteToGreentext(dest, defaultTemplate, lines, thumbnail, font, fontSize, previewOnly, bgColor, textColor)
+		width, err := getIntFlag("width")
+		if err != nil {
+			fmt.Println("Error reading text width flag:", err)
+			return
+		}
+
+		height, err := getIntFlag("height")
+		if err != nil {
+			fmt.Println("Error reading text height flag:", err)
+			return
+		}
+
+		err = gt.WriteToGreentext(dest, defaultTemplate, lines, thumbnail, font, fontSize, previewOnly, bgColor, textColor, width, height)
 		if err != nil {
 			fmt.Println("Error generating greentext:", err)
 			return
@@ -146,4 +158,7 @@ func init() {
 	rootCmd.Flags().StringP("background-color", "b", "#f0e0d6", "Background color for the greentext meme in HEX format")
 	rootCmd.Flags().StringP("text-color", "c", "#819f32", "Text color for the greentext lines in HEX format")
 	rootCmd.Flags().StringP("input-file", "i", "", "Path to a text file containing the greentext lines. Overrides the --lines flag")
+	rootCmd.Flags().String("tmpl", "", "Path to a custom template file for the greentext")
+	rootCmd.Flags().Int("width", 0, "Width of the generated greentext image in pixels. Default is auto")
+	rootCmd.Flags().Int("height", 0, "Height of the generated greentext image in pixels. Default is auto")
 }

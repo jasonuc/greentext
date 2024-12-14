@@ -7,10 +7,15 @@ import (
 )
 
 func GenerateHTMLFile(outputFile string, data GTData) error {
-
-	tmpl, err := template.New("greentext").Parse(string(data.Template))
-	if err != nil {
-		return fmt.Errorf("failed to parse template: %w", err)
+	tmpl := template.New("template")
+	if isFilePath(data.Template) {
+		if _, err := tmpl.ParseFiles(string(data.Template)); err != nil {
+			return fmt.Errorf("failed to parse template: %w", err)
+		}
+	} else {
+		if _, err := tmpl.Parse(string(data.Template)); err != nil {
+			return fmt.Errorf("failed to parse template: %w", err)
+		}
 	}
 
 	outFile, err := os.Create(outputFile)
@@ -25,4 +30,12 @@ func GenerateHTMLFile(outputFile string, data GTData) error {
 	}
 
 	return nil
+}
+
+func isFilePath(template []byte) bool {
+	info, err := os.Stat(string(template))
+	if err != nil {
+		return false // returns false because template is not file path
+	}
+	return !info.IsDir() // returns true because template is file path
 }

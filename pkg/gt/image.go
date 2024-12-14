@@ -13,7 +13,12 @@ import (
 	"github.com/nfnt/resize"
 )
 
-func CaptureElementScreenshot(htmlFile, outputImageFile string) error {
+const (
+	defaultWidth  uint = 512
+	defaultHeight uint = 0 // If one of the parameters width or height is set to 0, its size will be calculated so that the aspect ratio is that of the originating image.
+)
+
+func CaptureElementScreenshot(htmlFile, outputImageFile string, w, h int) error {
 	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()
 
@@ -24,7 +29,7 @@ func CaptureElementScreenshot(htmlFile, outputImageFile string) error {
 
 	fileURL := "file://" + absPath
 
-	var buf []byte
+	var buf []byte //
 
 	err = chromedp.Run(ctx,
 		chromedp.Navigate(fileURL),
@@ -40,7 +45,12 @@ func CaptureElementScreenshot(htmlFile, outputImageFile string) error {
 		return fmt.Errorf("failed to decode screenshot: %w", err)
 	}
 
-	resizedImg := resize.Resize(512, 0, img, resize.Lanczos3)
+	var width, height uint = uint(w), uint(h)
+	if width+height == 0 {
+		width, height = defaultWidth, defaultHeight
+	}
+
+	resizedImg := resize.Resize(width, height, img, resize.Lanczos3)
 
 	outFile, err := os.Create(outputImageFile)
 	if err != nil {

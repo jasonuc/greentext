@@ -22,7 +22,7 @@ type GTData struct {
 	Template   []byte
 }
 
-func WriteToGreentext(dest string, tmpl []byte, lines []string, thumbnailPath, font string, fontSize int, previewOnly bool, bgColor, textColor string) error {
+func WriteToGreentext(dest string, tmpl []byte, lines []string, thumbnailPath, font string, fontSize int, previewOnly bool, bgColor, textColor string, width, height int) error {
 
 	unixTime := time.Now().Unix()
 	timestamp := time.Unix(unixTime, 0).Format("02/01/2006, 15:04:05")
@@ -77,7 +77,7 @@ func WriteToGreentext(dest string, tmpl []byte, lines []string, thumbnailPath, f
 		return nil
 	}
 
-	err = CaptureElementScreenshot(htmlFile, dest)
+	err = CaptureElementScreenshot(htmlFile, dest, width, height)
 	if err != nil {
 		return err
 	}
