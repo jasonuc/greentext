@@ -80,6 +80,7 @@ func WriteToGreentext(dest string, tmpl []byte, lines []string, thumbnailPath, f
 		return nil
 	}
 
+	fmt.Println("Generating greentext...")
 	err = CaptureElementScreenshot(htmlFile, dest, width, height)
 	if err != nil {
 		return err
