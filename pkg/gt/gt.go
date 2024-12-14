@@ -13,13 +13,14 @@ import (
 
 // greentext data struct
 type GTData struct {
-	Timestamp  string
-	UniqueID   string
-	Lines      []string
-	Thumbnail  string
-	FontSize   int
-	StyleBlock template.HTML // holds dynamic CSS styles
-	Template   []byte
+	Timestamp     string
+	UniqueID      string
+	Lines         []string
+	Thumbnail     string
+	ThumbnailSize int
+	FontSize      int
+	StyleBlock    template.HTML // holds dynamic CSS styles
+	Template      []byte
 }
 
 func WriteToGreentext(dest string, tmpl []byte, lines []string, thumbnailPath, font string, fontSize int, previewOnly bool, bgColor, textColor string, width, height int) error {
@@ -52,6 +53,8 @@ func WriteToGreentext(dest string, tmpl []byte, lines []string, thumbnailPath, f
 		StyleBlock: styleBlock,
 		Template:   tmpl,
 	}
+
+	data.ThumbnailSize = getThumbnailSize(data.Thumbnail)
 
 	htmlFile := "temp_meme.html"
 	err := GenerateHTMLFile(htmlFile, data)
