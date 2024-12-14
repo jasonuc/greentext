@@ -6,7 +6,7 @@ import (
 
 	_ "embed"
 
-	"github.com/jasonuc/greentext/pkg"
+	"github.com/jasonuc/greentext/pkg/gt"
 	"github.com/jasonuc/greentext/pkg/version"
 	"github.com/spf13/cobra"
 )
@@ -26,7 +26,6 @@ Created by github.com/jasonuc.
 Visit https://github.com/jasonuc/greentext for more information.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		defaultTemplate, ok := cmd.Context().Value(defaultTemplateKey).([]byte)
-
 		if !ok {
 			fmt.Println("Invalid template passed")
 			return
@@ -55,16 +54,16 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 
 		var lines []string
 		if textFile != "" {
-			// Read lines from file
-			lines, err = pkg.ReadLinesFromFile(textFile)
+			// Read lines from file using the file from the -i flag
+			lines, err = gt.ReadLinesFromFile(textFile)
 			if err != nil {
 				fmt.Println("Error reading lines from file:", err)
 				return
 			}
 		} else {
-			// Read lines interactively
+			// Read lines interactively using the no. of lines from the -l flag
 			fmt.Println("Generating greentext with", lineCount, "lines")
-			lines, err = pkg.ReadInputLines(lineCount)
+			lines, err = gt.ReadInputLines(lineCount)
 			if err != nil {
 				fmt.Println("Error reading input lines:", err)
 				return
@@ -119,10 +118,9 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 			return
 		}
 
-		// Generate the meme
-		err = pkg.WriteToMemeImage(dest, defaultTemplate, lines, thumbnail, font, fontSize, previewOnly, bgColor, textColor)
+		err = gt.WriteToGreentext(dest, defaultTemplate, lines, thumbnail, font, fontSize, previewOnly, bgColor, textColor)
 		if err != nil {
-			fmt.Println("Error generating greentext meme:", err)
+			fmt.Println("Error generating greentext:", err)
 			return
 		}
 	},
