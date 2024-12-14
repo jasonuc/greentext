@@ -27,7 +27,7 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		defaultTemplate, ok := cmd.Context().Value(defaultTemplateKey).([]byte)
 
-		if ok != true {
+		if !ok {
 			fmt.Println("Invalid template passed")
 			return
 		}
@@ -128,8 +128,6 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 	},
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute(currentVersion string, defaultTemplate []byte) error {
 	rootCmd.Version = currentVersion
 	info := version.FetchUpdateInfo(rootCmd.Version)
