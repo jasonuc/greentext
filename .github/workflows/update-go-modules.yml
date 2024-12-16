@@ -1,0 +1,31 @@
+---
+name: Auto-Update Go Modules
+
+on:
+  schedule:
+    - cron: "0 0 * * 1" # Runs every Monday at midnight
+
+jobs:
+  update-go-modules:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: stable
+
+      - name: Update Dependencies
+        run: |
+          go get -u ./...
+          go mod tidy
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add go.mod go.sum
+          git commit -m "chore: auto-update Go modules"
+          git push
