@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"regexp"
 
-	"github.com/jasonuc/greentext/pkg/version"
+	"github.com/jasonuc/greentext/internal/version"
 	"github.com/spf13/cobra"
 )
 
@@ -17,7 +17,7 @@ var upgradeCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		info := version.FromContext(cmd.Context())
 		if !info.IsOutdated {
-			fmt.Println("greentext CLI is already up to date.")
+			fmt.Println("greentext is already up to date.")
 			return
 		}
 

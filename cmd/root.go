@@ -6,8 +6,8 @@ import (
 
 	_ "embed"
 
-	"github.com/jasonuc/greentext/pkg/gt"
-	"github.com/jasonuc/greentext/pkg/version"
+	"github.com/jasonuc/greentext/internal/gt"
+	"github.com/jasonuc/greentext/internal/version"
 	"github.com/spf13/cobra"
 )
 
