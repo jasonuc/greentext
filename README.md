@@ -1,4 +1,4 @@
-# greentext CLI
+# greentext
 
 The GreenText Generator CLI is a command-line tool built with Go that lets you create classic greentext with ease.
 
