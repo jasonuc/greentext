@@ -5,12 +5,12 @@ go 1.23.0
 require (
 	github.com/chromedp/chromedp v0.12.1
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
-	github.com/spf13/cobra v1.8.1
+	github.com/spf13/cobra v1.9.1
 	golang.org/x/mod v0.23.0
 )
 
 require (
-	github.com/chromedp/cdproto v0.0.0-20250208210249-fa305b1d5b8a // indirect
+	github.com/chromedp/cdproto v0.0.0-20250216233945-bd41ad9b04ce // indirect
 	github.com/chromedp/sysutil v1.1.0 // indirect
 	github.com/gobwas/httphead v0.1.0 // indirect
 	github.com/gobwas/pool v0.2.1 // indirect
