@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 )
@@ -22,9 +23,29 @@ The supported variables are:
 If there are any other variables you would like to see, please open an issue or a pull request the GitHub repository: jasonuc/greentext.
 If you want your template to be included in the default templates, please open a pull request on the GitHub repository: jasonuc/greentext.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		f, err := os.Create("template.html")
+		templateFileName, _ := cmd.Flags().GetString("output")
+		if templateFileName == "" {
+			templateFileName = "template.html"
+		}
+
+		// Check if file already exists
+		if _, err := os.Stat(templateFileName); err == nil {
+			fmt.Printf("File %s already exists. Do you want to overwrite it? (y/n): ", templateFileName)
+			var response string
+			if _, err := fmt.Scanln(&response); err != nil {
+				fmt.Println("Error reading input:", err)
+				return
+			}
+			if response != "y" && response != "Y" {
+				fmt.Println("Operation cancelled")
+				return
+			}
+		}
+
+		f, err := os.Create(templateFileName)
 		if err != nil {
 			fmt.Println("Error creating template file:", err)
+			return
 		}
 
 		defer f.Close()
@@ -40,11 +61,15 @@ If you want your template to be included in the default templates, please open a
 			return
 		}
 
-		fmt.Println("Template file created successfully at template.html")
+		absPath, _ := filepath.Abs(templateFileName)
+		fmt.Println("Template file created successfully at", absPath)
 		fmt.Println("You can now edit the template file to your liking. Enjoy :)")
+		fmt.Println("\nTo use this template with the greentext command, run:")
+		fmt.Printf("  greentext --tmpl %s [other options]\n", templateFileName)
 	},
 }
 
 func init() {
+	createTemplateCmd.Flags().StringP("output", "o", "template.html", "Name of the template file to create")
 	rootCmd.AddCommand(createTemplateCmd)
 }
