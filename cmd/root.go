@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"os"
 
 	_ "embed"
 
@@ -36,6 +37,12 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 		defaultTemplate, ok := cmd.Context().Value(defaultTemplateKey).([]byte)
 		if !ok {
 			fmt.Println("Invalid template passed")
+			return
+		}
+
+		customTemplatePath, err := getStringFlag("tmpl")
+		if err != nil {
+			fmt.Println("Error reading template flag:", err)
 			return
 		}
 
@@ -136,7 +143,21 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 			return
 		}
 
-		err = gt.WriteToGreentext(dest, defaultTemplate, lines, thumbnail, font, fontSize, previewOnly, bgColor, textColor, width, height, customDateTime)
+		// Determine which template to use
+		var templateToUse []byte
+		if customTemplatePath != "" {
+			customTemplate, err := os.ReadFile(customTemplatePath)
+			if err != nil {
+				fmt.Println("Error reading custom template:", err)
+				return
+			}
+			templateToUse = customTemplate
+			fmt.Println("Using custom template from:", customTemplatePath)
+		} else {
+			templateToUse = defaultTemplate
+		}
+
+		err = gt.WriteToGreentext(dest, templateToUse, lines, thumbnail, font, fontSize, previewOnly, bgColor, textColor, width, height)
 		if err != nil {
 			fmt.Println("Error generating greentext:", err)
 			return
