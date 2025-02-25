@@ -32,7 +32,10 @@ If you want your template to be included in the default templates, please open a
 		if _, err := os.Stat(templateFileName); err == nil {
 			fmt.Printf("File %s already exists. Do you want to overwrite it? (y/n): ", templateFileName)
 			var response string
-			fmt.Scanln(&response)
+			if _, err := fmt.Scanln(&response); err != nil {
+				fmt.Println("Error reading input:", err)
+				return
+			}
 			if response != "y" && response != "Y" {
 				fmt.Println("Operation cancelled")
 				return
