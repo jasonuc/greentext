@@ -137,6 +137,12 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 			return
 		}
 
+		customDateTime, err := getStringFlag("datetime")
+		if err != nil {
+			fmt.Println("Error reading datetime flag:", err)
+			return
+		}
+
 		// Determine which template to use
 		var templateToUse []byte
 		if customTemplatePath != "" {
@@ -151,7 +157,7 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 			templateToUse = defaultTemplate
 		}
 
-		err = gt.WriteToGreentext(dest, templateToUse, lines, thumbnail, font, fontSize, previewOnly, bgColor, textColor, width, height)
+		err = gt.WriteToGreentext(dest, templateToUse, lines, thumbnail, font, fontSize, previewOnly, bgColor, textColor, width, height, customDateTime)
 		if err != nil {
 			fmt.Println("Error generating greentext:", err)
 			return
@@ -182,4 +188,5 @@ func init() {
 	rootCmd.Flags().String("tmpl", "", "Path to a custom template file for the greentext")
 	rootCmd.Flags().Int("width", 0, "Width of the generated greentext image in pixels. Default is auto")
 	rootCmd.Flags().Int("height", 0, "Height of the generated greentext image in pixels. Default is auto")
+	rootCmd.Flags().StringP("datetime", "d", "", "Custom date/time for the greentext in format DD/MM/YYYY, HH:MM:SS or just DD/MM/YYYY (default: current time)")
 }
