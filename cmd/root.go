@@ -157,7 +157,7 @@ Visit https://github.com/jasonuc/greentext for more information.`,
 			templateToUse = defaultTemplate
 		}
 
-		err = gt.WriteToGreentext(dest, templateToUse, lines, thumbnail, font, fontSize, previewOnly, bgColor, textColor, width, height)
+		err = gt.WriteToGreentext(dest, templateToUse, lines, thumbnail, font, fontSize, previewOnly, bgColor, textColor, width, height, customDateTime)
 		if err != nil {
 			fmt.Println("Error generating greentext:", err)
 			return
