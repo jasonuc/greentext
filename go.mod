@@ -12,7 +12,7 @@ require (
 )
 
 require (
-	github.com/chromedp/cdproto v0.0.0-20250429231605-6ed5b53462d4 // indirect
+	github.com/chromedp/cdproto v0.0.0-20250509201441-70372ae9ef75 // indirect
 	github.com/chromedp/sysutil v1.1.0 // indirect
 	github.com/go-json-experiment/json v0.0.0-20250417205406-170dfdcf87d1 // indirect
 	github.com/gobwas/httphead v0.1.0 // indirect
@@ -20,5 +20,5 @@ require (
 	github.com/gobwas/ws v1.4.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
-	golang.org/x/sys v0.32.0 // indirect
+	golang.org/x/sys v0.33.0 // indirect
 )
