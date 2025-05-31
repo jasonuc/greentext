@@ -13,7 +13,6 @@ The GreenText Generator CLI is a command-line tool built with Go that lets you c
 - **Support for External Thumbnails**: Use image URLs as thumbnails for your greentext.
 - **Customizable Colors**: Set background and text colors using HEX codes.
 - **Dynamic Font Options**: Choose your preferred font and size.
-- **Fast and Lightweight**: Powered by Go, because performance matters even when making memes.
 - **Formatted Output**: Saves greentext as beautifully formatted PNGs, JPGs, JPEGs, and WEBPs ready for sharing.
 
 ## Installation
