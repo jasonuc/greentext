@@ -12,7 +12,7 @@ require (
 )
 
 require (
-	github.com/chromedp/cdproto v0.0.0-20250625204652-ce640014f9ac // indirect
+	github.com/chromedp/cdproto v0.0.0-20250706212322-41fb261d0659 // indirect
 	github.com/chromedp/sysutil v1.1.0 // indirect
 	github.com/go-json-experiment/json v0.0.0-20250626171732-1a886bd29d1b // indirect
 	github.com/gobwas/httphead v0.1.0 // indirect
