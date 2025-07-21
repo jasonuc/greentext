@@ -12,13 +12,13 @@ require (
 )
 
 require (
-	github.com/chromedp/cdproto v0.0.0-20250713235838-3ec7dc2cfcb5 // indirect
+	github.com/chromedp/cdproto v0.0.0-20250715215929-4738bcb231c7 // indirect
 	github.com/chromedp/sysutil v1.1.0 // indirect
-	github.com/go-json-experiment/json v0.0.0-20250709061156-d2cd4771eb1b // indirect
+	github.com/go-json-experiment/json v0.0.0-20250714165856-be8212f5270d // indirect
 	github.com/gobwas/httphead v0.1.0 // indirect
 	github.com/gobwas/pool v0.2.1 // indirect
 	github.com/gobwas/ws v1.4.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/spf13/pflag v1.0.6 // indirect
+	github.com/spf13/pflag v1.0.7 // indirect
 	golang.org/x/sys v0.34.0 // indirect
 )
