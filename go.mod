@@ -1,13 +1,11 @@
 module github.com/jasonuc/greentext
 
-go 1.24
-
-toolchain go1.24.0
+go 1.24.0
 
 require (
 	github.com/chromedp/chromedp v0.14.1
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
-	github.com/spf13/cobra v1.9.1
+	github.com/spf13/cobra v1.10.1
 	golang.org/x/mod v0.27.0
 )
 
@@ -19,6 +17,6 @@ require (
 	github.com/gobwas/pool v0.2.1 // indirect
 	github.com/gobwas/ws v1.4.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/spf13/pflag v1.0.8 // indirect
-	golang.org/x/sys v0.35.0 // indirect
+	github.com/spf13/pflag v1.0.10 // indirect
+	golang.org/x/sys v0.36.0 // indirect
 )
