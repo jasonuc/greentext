@@ -3,14 +3,14 @@ module github.com/jasonuc/greentext
 go 1.26
 
 require (
-	github.com/chromedp/chromedp v0.15.1
+	github.com/chromedp/chromedp v0.16.0
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
 	github.com/spf13/cobra v1.10.2
 	golang.org/x/mod v0.38.0
 )
 
 require (
-	github.com/chromedp/cdproto v0.0.0-20260704091341-6ca7914c3938 // indirect
+	github.com/chromedp/cdproto v0.0.0-20260719223732-95f6af754cfe // indirect
 	github.com/chromedp/sysutil v1.1.0 // indirect
 	github.com/go-json-experiment/json v0.0.0-20260623181947-01eb4420fa68 // indirect
 	github.com/gobwas/httphead v0.1.0 // indirect
